@@ -1,7 +1,7 @@
 var cartValue = document.getElementById("cart-value");
 var cartButton = document.getElementById("cart");
 
-var addButtons = document.getElementsByClassName("button");
+var addButton = document.getElementsByClassName("button");
 
 var items = [
   {
@@ -90,16 +90,18 @@ var items = [
   },
 ];
 
+
 function updateCart() {
   let cart = 0;
-  for (index = 0; index < items.length; index++) {
-    cart = cart + items[index].quantity;
+  for (i = 0; i< items.length; i++) {
+    cart = cart + items[i].quantity;
   }
   cartValue.innerHTML = cart;
 }
 
-for (let i = 0; i < addButtons.length; i++) {
-  addButtons[i].onclick = (e) => {
+
+for (let i = 0; i < addButton.length; i++) {
+  addButton[i].onclick = (e) => {
     items[i].quantity++;
     updateCart();
   };
@@ -111,32 +113,40 @@ var finalCents = 0;
 function updatePrice() {
   let totalPriceInCents = 0;
 
-  for (index = 0; index < items.length; index++) {
+  for (i = 0; i < items.length; i++) {
     totalPriceInCents =
       totalPriceInCents +
-      items[index].quantity * (items[index].dollars * 100 + items[index].cents);
+      items[i].quantity * (items[i].dollars * 100 + items[i].cents);
   }
   finalDollars = Math.floor(totalPriceInCents / 100);
   finalCents = totalPriceInCents % 100;
 }
+cartButton.onclick =()=>{
+  updatePrice(); 
+  let message = "Order detials";
 
-
-cartButton.onclick = () => {
-  updatePrice();
-
-
-  for (let index = 0; index < items.length; index++) {
-    if (items[index].quantity != 0) {
+  for (let i = 0; i < items.length; i++) {
+    
+    if(items[i].quantity !=0){
+      message += `Items name ${items[i].name} - Quantity: ${items[i].quantity}`
+      
       console.log(
-        "Item name: " +
-          items[index].name +
-          " - Quantity: " +
-          items[index].quantity
-      );
-    }
-  }
+        `Items name ${items[i].name} - Quantity: ${items[i].quantity}`);
+       
+    };
+ 
 
-  console.log(
-    "The total amount is " + finalDollars + "$ and " + finalCents + " cents"
-  );
+  }
+  message += `The total amount is ${finalDollars} Dollars and ${finalCents} Cents`
+console.log(`The total amount is ${finalDollars} Dollars and ${finalCents} Cents`);
+
+  window.open(`https://wa.me/9399457890/?text=${message}`);
+
+
+
+
+
+
+
+
 };
